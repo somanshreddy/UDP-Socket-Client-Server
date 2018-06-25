@@ -1,0 +1,76 @@
+﻿UDP Socket Programming 
+
+
+What is UDP?
+UDP is a connectionless, unreliable, datagram protocol unlike the connection-oriented, reliable byte stream provided by TCP.
+
+
+How does UDP work?
+In a UDP client/server, the client does not establish a connection with the server. Instead, the client just sends a datagram to the server using the sendto function, which requires the address of the destination (the server) as a parameter. Similarly, the server does not accept a connection from a client. Instead, the server just calls the  recvfrom function, which waits until data arrives from some client and recvfrom returns the protocol address of the client, along with the datagram, so the server can send a response to the correct client.
+
+
+What are Sockets?
+A process on one machine can use sockets to communicate with a process on another, which allows for client/server systems that are distributed across a network. Sockets may also be used between processes on the same machine.
+
+
+
+Problem description: 
+A simple client-server program where the server and client can send messages to each other using UDP sockets.  
+
+
+Functions used: 
+
+1) int socket(int domain, int type, int protocol);
+
+Returns socket file descriptor.
+
+
+Arguments : 
+domain – Specifies the communication
+domain ( AF_INET for IPv4/ AF_INET6 for IPv6 )
+type – Type of socket to be created
+( SOCK_STREAM for TCP / SOCK_DGRAM for UDP )
+protocol – Protocol to be used by socket.
+0 means use default protocol for the address family.
+
+
+
+2) int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen)
+
+The bind function assigns a local protocol address to a socket. With the Internet protocols, the protocol address is the combination of either a 32-bit IPv4 address or a 128-bit IPv6 address, along with a 16-bit UDP port number.
+Arguments : 
+sockfd – File descriptor of socket to be binded
+addr – Structure in which address to be binded to is specified
+addrlen – Size of addr structure
+
+
+
+3) ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
+               const struct sockaddr *dest_addr, socklen_t addrlen)
+
+Send a message on the socket.
+Arguments : 
+sockfd – File descriptor of socket
+buf – Buffer containing the data to be sent
+len – Size of buffer
+flags – Bitwise OR of flags to modify socket behaviour
+dest_addr – Structure containing address of destination
+addrlen – Size of dest_addr structure
+
+
+
+
+
+4) ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
+                 struct sockaddr *src_addr, socklen_t *addrlen)
+
+Receive a message from the socket.
+Arguments : 
+sockfd – File descriptor of socket
+buf – Buffer in which to receive data
+len – Size of buffer
+flags – Bitwise OR of flags to modify socket behaviour
+src_addr – Structure containing source address is returned
+addrlen – Variable in which size of src_addr structure is returned
+
+
